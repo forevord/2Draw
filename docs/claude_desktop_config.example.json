@@ -1,5 +1,32 @@
 {
+  "preferences": {
+    "coworkWebSearchEnabled": true,
+    "ccdScheduledTasksEnabled": true,
+    "coworkScheduledTasksEnabled": false,
+    "sidebarMode": "chat"
+  },
   "mcpServers": {
+    "vibe_kanban": {
+      "command": "npx",
+      "args": ["-y", "vibe-kanban@latest", "--mcp"]
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:YOUR_SUPABASE_PASSWORD@db.YOUR_PROJECT_ID.supabase.co:5432/postgres"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/YOUR_USERNAME/Documents",
+        "/Users/YOUR_USERNAME/Desktop"
+      ]
+    },
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
@@ -7,60 +34,40 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_GITHUB_TOKEN"
       }
     },
-    "supabase": {
-      "command": "npx",
-      "args": ["-y", "@supabase/mcp-server-supabase@latest"],
-      "env": {
-        "SUPABASE_URL": "YOUR_SUPABASE_URL",
-        "SUPABASE_SERVICE_ROLE_KEY": "YOUR_SUPABASE_SERVICE_ROLE_KEY"
-      }
-    },
     "firecrawl": {
       "command": "npx",
       "args": ["-y", "firecrawl-mcp"],
       "env": {
-        "FIRECRAWL_API_KEY": "YOUR_FIRECRAWL_API_KEY"
+        "FIRECRAWL_API_KEY": "YOUR_FIRECRAWL_KEY"
       }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
     },
     "stripe": {
       "command": "npx",
-      "args": ["-y", "@stripe/mcp"],
+      "args": ["-y", "@stripe/agent-toolkit"],
       "env": {
         "STRIPE_SECRET_KEY": "YOUR_STRIPE_SECRET_KEY"
-      }
-    },
-    "agentops": {
-      "command": "npx",
-      "args": ["-y", "agentops-mcp"],
-      "env": {
-        "AGENTOPS_API_KEY": "YOUR_AGENTOPS_API_KEY"
       }
     },
     "cloudflare": {
       "command": "npx",
       "args": ["-y", "@cloudflare/mcp-server-cloudflare"],
       "env": {
-        "CLOUDFLARE_API_TOKEN": "YOUR_CLOUDFLARE_API_TOKEN",
-        "CLOUDFLARE_ACCOUNT_ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+        "CLOUDFLARE_API_TOKEN": "YOUR_CLOUDFLARE_TOKEN"
       }
     },
-    "playwright": {
+    "agentops": {
       "command": "npx",
-      "args": ["-y", "@playwright/mcp"]
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/PATH/TO/YOUR/2Draw"]
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@context7/mcp"]
-    },
-    "vibe-kanban": {
-      "command": "npx",
-      "args": ["-y", "vibe-kanban-mcp"],
+      "args": ["-y", "agentops-mcp"],
       "env": {
-        "VIBE_KANBAN_API_KEY": "YOUR_VIBE_KANBAN_API_KEY"
+        "AGENTOPS_API_KEY": "YOUR_AGENTOPS_KEY"
       }
     }
   }
