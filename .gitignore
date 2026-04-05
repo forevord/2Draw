@@ -1,20 +1,28 @@
 # Python
 __pycache__/
 *.py[cod]
-.env
+*.pyo
 .venv/
 venv/
 *.egg-info/
 dist/
+.pytest_cache/
 
 # Node
 node_modules/
 .next/
+
+# Secrets — NEVER commit these
+.env
 .env.local
 .env.production
+.env.development
+claude_desktop_config.json
 
-# General
+# macOS
 .DS_Store
-*.log
+
+# IDE
 .idea/
 .vscode/
+*.log
