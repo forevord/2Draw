@@ -1,0 +1,67 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_GITHUB_TOKEN"
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest"],
+      "env": {
+        "SUPABASE_URL": "YOUR_SUPABASE_URL",
+        "SUPABASE_SERVICE_ROLE_KEY": "YOUR_SUPABASE_SERVICE_ROLE_KEY"
+      }
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "YOUR_FIRECRAWL_API_KEY"
+      }
+    },
+    "stripe": {
+      "command": "npx",
+      "args": ["-y", "@stripe/mcp"],
+      "env": {
+        "STRIPE_SECRET_KEY": "YOUR_STRIPE_SECRET_KEY"
+      }
+    },
+    "agentops": {
+      "command": "npx",
+      "args": ["-y", "agentops-mcp"],
+      "env": {
+        "AGENTOPS_API_KEY": "YOUR_AGENTOPS_API_KEY"
+      }
+    },
+    "cloudflare": {
+      "command": "npx",
+      "args": ["-y", "@cloudflare/mcp-server-cloudflare"],
+      "env": {
+        "CLOUDFLARE_API_TOKEN": "YOUR_CLOUDFLARE_API_TOKEN",
+        "CLOUDFLARE_ACCOUNT_ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/PATH/TO/YOUR/2Draw"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@context7/mcp"]
+    },
+    "vibe-kanban": {
+      "command": "npx",
+      "args": ["-y", "vibe-kanban-mcp"],
+      "env": {
+        "VIBE_KANBAN_API_KEY": "YOUR_VIBE_KANBAN_API_KEY"
+      }
+    }
+  }
+}
