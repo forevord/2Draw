@@ -3,16 +3,19 @@
 Topology:
     image → color_match → [search ∥ manual] → pdf → END
 
-Each node is a stub that updates progress and persists to the jobs table.
-Downstream tickets (PS-05 … PS-08) will replace stub logic with real agents.
+PS-05: image_node — k-means segmentation (real implementation).
+PS-06 … PS-08: remaining nodes are stubs, to be replaced in downstream tickets.
 """
 
 from __future__ import annotations
 
+import asyncio
+from pathlib import Path
 from typing import Any
 
 from langgraph.graph import END, StateGraph
 
+from app.agents.image import save_segmented_preview, segment_image
 from app.db.supabase import get_supabase
 from app.pipeline.state import PipelineState
 
@@ -40,10 +43,18 @@ async def _persist(job_id: str, agent: str, progress: int) -> None:
 
 async def image_node(state: PipelineState) -> dict[str, Any]:
     await _persist(state["job_id"], "image", _PROGRESS["image"])
+    upload_path = Path("/tmp/paintsnap/uploads") / state["upload_id"]
+    img, labels, centroids, zones = await asyncio.to_thread(
+        segment_image, str(upload_path), state["n_clusters"]
+    )
+    preview_dir = Path("/tmp/paintsnap/previews")
+    preview_dir.mkdir(parents=True, exist_ok=True)
+    preview_path = preview_dir / f"{state['job_id']}_preview.png"
+    save_segmented_preview(img, labels, centroids, str(preview_path))
     return {
         "current_agent": "image",
         "progress": _PROGRESS["image"],
-        "image_data": {},
+        "image_data": {"zones": zones, "preview_path": str(preview_path)},
     }
 
 

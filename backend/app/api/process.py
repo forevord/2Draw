@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, cast
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.db.supabase import get_supabase
 from app.pipeline.state import PipelineState
@@ -15,6 +15,7 @@ router = APIRouter(tags=["pipeline"])
 
 class ProcessRequest(BaseModel):
     upload_id: str
+    n_clusters: int = Field(default=14, ge=4, le=24)
 
 
 class ProcessResponse(BaseModel):
@@ -27,7 +28,7 @@ class StatusResponse(BaseModel):
     status: str
 
 
-async def run_pipeline(job_id: str, upload_id: str) -> None:
+async def run_pipeline(job_id: str, upload_id: str, n_clusters: int) -> None:
     """Execute the LangGraph pipeline (background task)."""
     # Local import keeps graph.py out of the import chain during tests
     from app.pipeline.graph import pipeline_graph  # noqa: PLC0415
@@ -35,6 +36,7 @@ async def run_pipeline(job_id: str, upload_id: str) -> None:
     initial_state: PipelineState = {
         "job_id": job_id,
         "upload_id": upload_id,
+        "n_clusters": n_clusters,
         "current_agent": "image",
         "progress": 0,
         "image_data": None,
@@ -83,7 +85,7 @@ async def process(
     )
     rows = cast(list[dict[str, Any]], result.data)
     job_id: str = rows[0]["id"]
-    background_tasks.add_task(run_pipeline, job_id, req.upload_id)
+    background_tasks.add_task(run_pipeline, job_id, req.upload_id, req.n_clusters)
     return ProcessResponse(job_id=job_id)
 
 

@@ -11,6 +11,7 @@ class PipelineState(TypedDict):
 
     job_id: str
     upload_id: str
+    n_clusters: int  # k-means colour zones, range 4–24, default 14
     # "image" | "color_match" | "search" | "manual" | "pdf" | "done"
     current_agent: str
     progress: int  # 0–100
