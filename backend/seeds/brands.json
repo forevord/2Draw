@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Winsor & Newton",
+    "region": "eu",
+    "url": "https://www.winsornewton.com",
+    "active": true
+  },
+  {
+    "name": "Liquitex",
+    "region": "eu",
+    "url": "https://www.liquitex.com",
+    "active": true
+  },
+  {
+    "name": "Nevskaya Palitra",
+    "region": "cis",
+    "url": "https://www.nevskaya-palitra.ru",
+    "active": true
+  }
+]
