@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     # AgentOps
     agentops_api_key: str = ""
 
+    # Anthropic
+    anthropic_api_key: str = ""
+
     # Firecrawl
     firecrawl_api_key: str = ""
 
