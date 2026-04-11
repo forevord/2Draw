@@ -5,7 +5,8 @@ Topology:
 
 PS-05: image_node — k-means segmentation (real implementation).
 PS-06: color_match_node — CIE76 delta-E paint matching (real implementation).
-PS-07 … PS-08: remaining nodes are stubs, to be replaced in downstream tickets.
+PS-07: search_node — marketplace URL builder (real implementation).
+PS-08: remaining nodes are stubs, to be replaced in downstream tickets.
 """
 
 from __future__ import annotations
@@ -18,6 +19,7 @@ from langgraph.graph import END, StateGraph
 
 from app.agents.color_match import match_colors
 from app.agents.image import save_segmented_preview, segment_image
+from app.agents.search import build_search_results
 from app.db.supabase import get_supabase
 from app.pipeline.state import PipelineState
 
@@ -74,7 +76,9 @@ async def color_match_node(state: PipelineState) -> dict[str, Any]:
 
 async def search_node(state: PipelineState) -> dict[str, Any]:
     await _persist(state["job_id"], "search", _PROGRESS["search"])
-    return {"search_results": []}
+    matches: list[dict[str, Any]] = state["matches"] or []
+    results = build_search_results(matches, state["region"])
+    return {"search_results": results}
 
 
 async def manual_node(state: PipelineState) -> dict[str, Any]:
