@@ -110,7 +110,13 @@ def test_zones_are_sorted_by_pixel_count() -> None:
 def test_zone_has_required_fields() -> None:
     """Every zone dict must contain all 7 required keys."""
     required: set[str] = {
-        "zone_id", "hex", "lab_l", "lab_a", "lab_b", "pixel_count", "percentage"
+        "zone_id",
+        "hex",
+        "lab_l",
+        "lab_a",
+        "lab_b",
+        "pixel_count",
+        "percentage",
     }
     n = 2
     pil_img = _make_pil(4, 4)  # 16 pixels

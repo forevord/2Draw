@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import Any, Literal, cast
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel, Field
@@ -16,6 +16,7 @@ router = APIRouter(tags=["pipeline"])
 class ProcessRequest(BaseModel):
     upload_id: str
     n_clusters: int = Field(default=14, ge=4, le=24)
+    region: Literal["eu", "cis", "global"] = "eu"
 
 
 class ProcessResponse(BaseModel):
@@ -28,7 +29,9 @@ class StatusResponse(BaseModel):
     status: str
 
 
-async def run_pipeline(job_id: str, upload_id: str, n_clusters: int) -> None:
+async def run_pipeline(
+    job_id: str, upload_id: str, n_clusters: int, region: str
+) -> None:
     """Execute the LangGraph pipeline (background task)."""
     # Local import keeps graph.py out of the import chain during tests
     from app.pipeline.graph import pipeline_graph  # noqa: PLC0415
@@ -37,6 +40,7 @@ async def run_pipeline(job_id: str, upload_id: str, n_clusters: int) -> None:
         "job_id": job_id,
         "upload_id": upload_id,
         "n_clusters": n_clusters,
+        "region": region,
         "current_agent": "image",
         "progress": 0,
         "image_data": None,
@@ -85,16 +89,16 @@ async def process(
     )
     rows = cast(list[dict[str, Any]], result.data)
     job_id: str = rows[0]["id"]
-    background_tasks.add_task(run_pipeline, job_id, req.upload_id, req.n_clusters)
+    background_tasks.add_task(
+        run_pipeline, job_id, req.upload_id, req.n_clusters, req.region
+    )
     return ProcessResponse(job_id=job_id)
 
 
 @router.get("/status/{job_id}", response_model=StatusResponse)
 async def status(job_id: str) -> StatusResponse:
     client = await get_supabase()
-    result = await (
-        client.table("jobs").select("*").eq("id", job_id).execute()
-    )
+    result = await client.table("jobs").select("*").eq("id", job_id).execute()
     if not result.data:
         raise HTTPException(status_code=404, detail="Job not found")
     rows = cast(list[dict[str, Any]], result.data)

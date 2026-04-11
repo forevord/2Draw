@@ -4,7 +4,8 @@ Topology:
     image → color_match → [search ∥ manual] → pdf → END
 
 PS-05: image_node — k-means segmentation (real implementation).
-PS-06 … PS-08: remaining nodes are stubs, to be replaced in downstream tickets.
+PS-06: color_match_node — CIE76 delta-E paint matching (real implementation).
+PS-07 … PS-08: remaining nodes are stubs, to be replaced in downstream tickets.
 """
 
 from __future__ import annotations
@@ -15,6 +16,7 @@ from typing import Any
 
 from langgraph.graph import END, StateGraph
 
+from app.agents.color_match import match_colors
 from app.agents.image import save_segmented_preview, segment_image
 from app.db.supabase import get_supabase
 from app.pipeline.state import PipelineState
@@ -60,10 +62,13 @@ async def image_node(state: PipelineState) -> dict[str, Any]:
 
 async def color_match_node(state: PipelineState) -> dict[str, Any]:
     await _persist(state["job_id"], "color_match", _PROGRESS["color_match"])
+    client = await get_supabase()
+    zones: list[dict[str, Any]] = (state["image_data"] or {}).get("zones", [])
+    matches = await match_colors(zones, client, state["region"])
     return {
         "current_agent": "color_match",
         "progress": _PROGRESS["color_match"],
-        "matches": [],
+        "matches": matches,
     }
 
 

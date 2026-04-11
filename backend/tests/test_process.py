@@ -32,9 +32,7 @@ async def test_process_returns_job_id(client: AsyncClient) -> None:
         patch("app.api.process.get_supabase", AsyncMock(return_value=mock_sb)),
         patch("app.api.process.run_pipeline", AsyncMock()),
     ):
-        resp = await client.post(
-            "/api/v1/process", json={"upload_id": "upload-abc"}
-        )
+        resp = await client.post("/api/v1/process", json={"upload_id": "upload-abc"})
     assert resp.status_code == 200
     assert resp.json()["job_id"] == "job-uuid-1"
 
