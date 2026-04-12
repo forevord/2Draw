@@ -15,11 +15,14 @@ import asyncio
 from pathlib import Path
 from typing import Any
 
+from anthropic import AsyncAnthropic
 from langgraph.graph import END, StateGraph
 
 from app.agents.color_match import match_colors
 from app.agents.image import save_segmented_preview, segment_image
+from app.agents.manual import generate_manual
 from app.agents.search import build_search_results
+from app.core.config import settings
 from app.db.supabase import get_supabase
 from app.pipeline.state import PipelineState
 
@@ -83,7 +86,10 @@ async def search_node(state: PipelineState) -> dict[str, Any]:
 
 async def manual_node(state: PipelineState) -> dict[str, Any]:
     await _persist(state["job_id"], "manual", _PROGRESS["manual"])
-    return {"manual_results": []}
+    matches: list[dict[str, Any]] = state["matches"] or []
+    anthropic_client = AsyncAnthropic(api_key=settings.anthropic_api_key)
+    results = await generate_manual(matches, anthropic_client)
+    return {"manual_results": results}
 
 
 async def pdf_node(state: PipelineState) -> dict[str, Any]:
