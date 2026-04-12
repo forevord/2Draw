@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+import logging
 from typing import Any, Literal, cast
 
+import agentops
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel, Field
 
+from app.core.config import settings
 from app.db.supabase import get_supabase
 from app.pipeline.state import PipelineState
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["pipeline"])
 
@@ -35,6 +40,15 @@ async def run_pipeline(
     """Execute the LangGraph pipeline (background task)."""
     # Local import keeps graph.py out of the import chain during tests
     from app.pipeline.graph import pipeline_graph  # noqa: PLC0415
+
+    # AgentOps session — one per pipeline run (no-op if key is empty)
+    session: Any = None
+    if settings.agentops_api_key:
+        agentops.init(
+            api_key=settings.agentops_api_key,
+            auto_start_session=False,
+        )
+        session = agentops.start_session(tags=["pipeline", job_id])
 
     initial_state: PipelineState = {
         "job_id": job_id,
@@ -65,6 +79,12 @@ async def run_pipeline(
             .eq("id", job_id)
             .execute()
         )
+        if session:
+            session.end_session(end_state="Fail")
+        return
+
+    if session:
+        session.end_session(end_state="Success")
 
 
 @router.post("/process", response_model=ProcessResponse)
