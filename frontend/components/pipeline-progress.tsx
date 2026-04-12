@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getStatus, type StatusResult } from "@/lib/api";
+import Spinner from "@/components/spinner";
 
 const STEPS = [
   { key: "image", label: "Image segmentation", threshold: 10 },
@@ -64,14 +65,13 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
   return (
     <div className="mx-auto w-full max-w-md space-y-8">
       {/* Step list */}
-      <div className="space-y-3">
+      <ol className="space-y-3">
         {STEPS.map((step) => {
           const s = stepStatus(progress, step.threshold);
           return (
-            <div key={step.key} className="flex items-center gap-3">
-              {/* Icon */}
+            <li key={step.key} className="flex items-center gap-3">
               {s === "complete" && (
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pink-500 text-white">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pink-500 text-white" aria-hidden="true">
                   <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                     <path
                       fillRule="evenodd"
@@ -83,51 +83,36 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
               )}
               {s === "active" && (
                 <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-pink-500">
-                  <svg
-                    className="h-3.5 w-3.5 animate-spin text-pink-500"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    />
-                  </svg>
+                  <Spinner size="sm" className="text-pink-500" />
                 </div>
               )}
               {s === "pending" && (
-                <div className="h-6 w-6 rounded-full border-2 border-zinc-200" />
+                <div className="h-6 w-6 rounded-full border-2 border-zinc-200" aria-hidden="true" />
               )}
-
-              {/* Label */}
               <span
                 className={`text-sm ${
-                  s === "complete"
+                  s === "complete" || s === "active"
                     ? "font-medium text-zinc-900"
-                    : s === "active"
-                      ? "font-medium text-zinc-900"
-                      : "text-slate-400"
+                    : "text-slate-400"
                 }`}
               >
                 {step.label}
               </span>
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ol>
 
       {/* Progress bar */}
       <div>
-        <div className="h-2 overflow-hidden rounded-full bg-zinc-100">
+        <div
+          className="h-2 overflow-hidden rounded-full bg-zinc-100"
+          role="progressbar"
+          aria-valuenow={progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Pipeline progress"
+        >
           <div
             className="h-full rounded-full bg-pink-500 transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}

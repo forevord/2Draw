@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import PipelineProgress from "@/components/pipeline-progress";
+
+export const metadata: Metadata = { title: "Processing — 2Draw" };
 
 export default function ProcessingPage({
   params,

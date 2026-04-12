@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import SettingsForm from "@/components/settings-form";
+
+export const metadata: Metadata = { title: "Settings — 2Draw" };
 
 export default function SettingsPage({
   searchParams,

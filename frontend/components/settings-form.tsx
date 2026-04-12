@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { startProcess } from "@/lib/api";
+import Spinner from "@/components/spinner";
 
 type Region = "eu" | "cis" | "global";
 
@@ -55,6 +56,8 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
             max={24}
             value={nClusters}
             onChange={(e) => setNClusters(Number(e.target.value))}
+            aria-label="Number of color zones"
+            aria-valuetext={`${nClusters} zones`}
             className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-200 accent-pink-500"
           />
           <span className="w-16 text-right text-sm font-medium text-zinc-900">
@@ -113,25 +116,7 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
       >
         {state === "submitting" ? (
           <span className="flex items-center justify-center gap-2">
-            <svg
-              className="h-4 w-4 animate-spin"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
+            <Spinner size="sm" />
             Starting...
           </span>
         ) : (
