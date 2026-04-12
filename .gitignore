@@ -7,17 +7,27 @@ venv/
 *.egg-info/
 dist/
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.pyc
 
 # Node
 node_modules/
 .next/
+out/
+coverage/
+vitest-coverage/
 
 # Secrets — NEVER commit these
 .env
 .env.local
 .env.production
 .env.development
+.env.test.local
 claude_desktop_config.json
+
+# uv
+uv.lock
 
 # macOS
 .DS_Store
@@ -26,3 +36,6 @@ claude_desktop_config.json
 .idea/
 .vscode/
 *.log
+
+# Build artifacts
+*.tsbuildinfo
