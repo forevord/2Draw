@@ -34,15 +34,11 @@ def _mock_supabase(
 
         # INSERT chain: .insert().execute()
         mock_table.insert.return_value.execute = AsyncMock(
-            return_value=MagicMock(
-                data=[{"id": "export-uuid-1"}]
-            )
+            return_value=MagicMock(data=[{"id": "export-uuid-1"}])
         )
 
         # UPDATE chain: .update().eq().execute()
-        mock_table.update.return_value.eq.return_value.execute = (
-            mock_execute
-        )
+        mock_table.update.return_value.eq.return_value.execute = mock_execute
 
         return mock_table
 
@@ -78,9 +74,7 @@ async def test_checkout_creates_session(client: AsyncClient) -> None:
             return_value=mock_session,
         ),
     ):
-        resp = await client.post(
-            "/api/v1/checkout", json={"job_id": "job-uuid-1"}
-        )
+        resp = await client.post("/api/v1/checkout", json={"job_id": "job-uuid-1"})
     assert resp.status_code == 200
     assert "checkout.stripe.com" in resp.json()["session_url"]
 
@@ -93,9 +87,7 @@ async def test_checkout_job_not_found(client: AsyncClient) -> None:
         "app.api.checkout.get_supabase",
         AsyncMock(return_value=mock_sb),
     ):
-        resp = await client.post(
-            "/api/v1/checkout", json={"job_id": "no-such-job"}
-        )
+        resp = await client.post("/api/v1/checkout", json={"job_id": "no-such-job"})
     assert resp.status_code == 404
 
 

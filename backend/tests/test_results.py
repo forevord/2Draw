@@ -40,9 +40,7 @@ async def test_results_returns_pdf_url_when_paid(
     job_row = {
         "id": "job-uuid-1",
         "status": "complete",
-        "settings": {
-            "pdf_url": "https://r2.example.com/guides/job-uuid-1.pdf"
-        },
+        "settings": {"pdf_url": "https://r2.example.com/guides/job-uuid-1.pdf"},
     }
     export_row = {"status": "paid"}
     mock_sb = _mock_supabase([job_row], [export_row])
@@ -66,9 +64,7 @@ async def test_results_hides_pdf_when_unpaid(
     job_row = {
         "id": "job-uuid-2",
         "status": "complete",
-        "settings": {
-            "pdf_url": "https://r2.example.com/guides/job-uuid-2.pdf"
-        },
+        "settings": {"pdf_url": "https://r2.example.com/guides/job-uuid-2.pdf"},
     }
     mock_sb = _mock_supabase([job_row], [])
     with patch(

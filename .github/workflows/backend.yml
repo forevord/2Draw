@@ -51,3 +51,12 @@ jobs:
         env:
           SUPABASE_URL: ""
           SUPABASE_SERVICE_ROLE_KEY: ""
+          STRIPE_SECRET_KEY: ""
+          STRIPE_WEBHOOK_SECRET: ""
+          ANTHROPIC_API_KEY: ""
+          CLOUDFLARE_ACCOUNT_ID: ""
+          R2_BUCKET_NAME: ""
+          R2_PUBLIC_URL: ""
+          R2_ACCESS_KEY_ID: ""
+          R2_SECRET_ACCESS_KEY: ""
+          FRONTEND_URL: http://localhost:3000

@@ -35,9 +35,7 @@ async def stripe_webhook(request: Request) -> dict[str, str]:
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
         session_id: str = session["id"]
-        customer_email: str = session.get("customer_details", {}).get(
-            "email", ""
-        )
+        customer_email: str = session.get("customer_details", {}).get("email", "")
 
         client = await get_supabase()
         await (

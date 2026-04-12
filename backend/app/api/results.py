@@ -28,10 +28,7 @@ async def get_results(job_id: str) -> ResultsResponse:
     """Return the PDF URL and status for a completed job."""
     client = await get_supabase()
     result = await (
-        client.table("jobs")
-        .select("id, status, settings")
-        .eq("id", job_id)
-        .execute()
+        client.table("jobs").select("id, status, settings").eq("id", job_id).execute()
     )
     rows = cast(list[dict[str, Any]], result.data)
     if not rows:

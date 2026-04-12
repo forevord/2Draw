@@ -47,9 +47,7 @@ async def create_checkout(req: CheckoutRequest) -> CheckoutResponse:
 
     job = rows[0]
     if job["status"] != "complete":
-        raise HTTPException(
-            status_code=400, detail="Job is not complete yet"
-        )
+        raise HTTPException(status_code=400, detail="Job is not complete yet")
 
     job_settings: dict[str, Any] = job.get("settings") or {}
     pdf_url = job_settings.get("pdf_url")

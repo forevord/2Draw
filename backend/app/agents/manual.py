@@ -67,9 +67,7 @@ async def generate_manual(
             max_tokens=_MAX_TOKENS,
             messages=[{"role": "user", "content": prompt}],
         )
-        text_block = next(
-            (b for b in response.content if b.type == "text"), None
-        )
+        text_block = next((b for b in response.content if b.type == "text"), None)
         if text_block is None:
             raise ValueError("No text block in response")
         raw = text_block.text
