@@ -3,10 +3,11 @@
 Topology:
     image → color_match → [search ∥ manual] → pdf → END
 
-PS-05: image_node — k-means segmentation (real implementation).
-PS-06: color_match_node — CIE76 delta-E paint matching (real implementation).
-PS-07: search_node — marketplace URL builder (real implementation).
-PS-08: remaining nodes are stubs, to be replaced in downstream tickets.
+PS-05: image_node — k-means segmentation.
+PS-06: color_match_node — CIE76 delta-E paint matching.
+PS-07: search_node — marketplace URL builder.
+PS-08: manual_node — Claude painting guide.
+PS-09: pdf_node — ReportLab render + R2 upload.
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from langgraph.graph import END, StateGraph
 from app.agents.color_match import match_colors
 from app.agents.image import save_segmented_preview, segment_image
 from app.agents.manual import generate_manual
+from app.agents.pdf import generate_pdf, upload_to_r2
 from app.agents.search import build_search_results
 from app.core.config import settings
 from app.db.supabase import get_supabase
@@ -93,13 +95,26 @@ async def manual_node(state: PipelineState) -> dict[str, Any]:
 
 
 async def pdf_node(state: PipelineState) -> dict[str, Any]:
+    await _persist(state["job_id"], "pdf", _PROGRESS["pdf"])
+    pdf_bytes = await generate_pdf(
+        job_id=state["job_id"],
+        image_data=state["image_data"] or {},
+        matches=state["matches"] or [],
+        search_results=state["search_results"],
+        manual_results=state["manual_results"],
+    )
+    pdf_url = await upload_to_r2(state["job_id"], pdf_bytes)
     client = await get_supabase()
     await (
         client.table("jobs")
         .update(
             {
                 "status": "complete",
-                "settings": {"current_agent": "done", "progress": _PROGRESS["done"]},
+                "settings": {
+                    "current_agent": "done",
+                    "progress": _PROGRESS["done"],
+                    "pdf_url": pdf_url,
+                },
             }
         )
         .eq("id", state["job_id"])
@@ -108,7 +123,7 @@ async def pdf_node(state: PipelineState) -> dict[str, Any]:
     return {
         "current_agent": "done",
         "progress": _PROGRESS["done"],
-        "pdf_url": None,
+        "pdf_url": pdf_url,
     }
 
 
