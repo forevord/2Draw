@@ -37,7 +37,7 @@ export default function PreviewCard({ jobId }: { jobId: string }) {
     return (
       <div className="flex justify-center">
         <svg
-          className="h-6 w-6 animate-spin text-gray-400"
+          className="h-6 w-6 animate-spin text-slate-400"
           viewBox="0 0 24 24"
           fill="none"
         >
@@ -65,7 +65,7 @@ export default function PreviewCard({ jobId }: { jobId: string }) {
         <p className="text-sm text-red-600">{error}</p>
         <Link
           href="/"
-          className="mt-4 inline-block rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="mt-4 inline-block rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
         >
           Back to Upload
         </Link>
@@ -76,7 +76,7 @@ export default function PreviewCard({ jobId }: { jobId: string }) {
   return (
     <div className="mx-auto w-full max-w-md text-center">
       {/* Success icon */}
-      <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gray-900">
+      <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-pink-500">
         <svg
           className="h-8 w-8 text-white"
           viewBox="0 0 20 20"
@@ -90,10 +90,10 @@ export default function PreviewCard({ jobId }: { jobId: string }) {
         </svg>
       </div>
 
-      <h2 className="text-xl font-bold text-gray-900">
+      <h2 className="text-xl font-bold text-zinc-900">
         Your guide is ready!
       </h2>
-      <p className="mt-2 text-sm text-gray-500">
+      <p className="mt-2 text-sm text-slate-500">
         Download your PDF paint-by-number guide below.
       </p>
 
@@ -103,12 +103,12 @@ export default function PreviewCard({ jobId }: { jobId: string }) {
           href={data.pdf_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-block rounded-lg bg-gray-900 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+          className="mt-6 inline-block rounded-lg bg-zinc-900 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
         >
           Download PDF
         </a>
       ) : (
-        <p className="mt-6 text-sm text-gray-400">
+        <p className="mt-6 text-sm text-slate-400">
           PDF is being prepared...
         </p>
       )}
@@ -117,7 +117,7 @@ export default function PreviewCard({ jobId }: { jobId: string }) {
       <div className="mt-8">
         <Link
           href="/"
-          className="text-sm text-gray-500 underline hover:text-gray-700"
+          className="text-sm text-pink-500 underline hover:text-pink-600"
         >
           Create another guide
         </Link>

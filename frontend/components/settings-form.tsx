@@ -42,10 +42,10 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
     <div className="mx-auto w-full max-w-md space-y-8">
       {/* Color Zones Slider */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium font-heading text-zinc-700">
           Color Zones
         </label>
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-slate-400">
           How many distinct color regions to detect
         </p>
         <div className="mt-3 flex items-center gap-4">
@@ -55,9 +55,9 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
             max={24}
             value={nClusters}
             onChange={(e) => setNClusters(Number(e.target.value))}
-            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-gray-900"
+            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-200 accent-pink-500"
           />
-          <span className="w-16 text-right text-sm font-medium text-gray-900">
+          <span className="w-16 text-right text-sm font-medium text-zinc-900">
             {nClusters} zones
           </span>
         </div>
@@ -65,10 +65,10 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
 
       {/* Region Selector */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium font-heading text-zinc-700">
           Paint Region
         </label>
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-slate-400">
           Where to find paints and buy links
         </p>
         <div className="mt-3 space-y-2">
@@ -77,8 +77,8 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
               key={r.value}
               className={`flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${
                 region === r.value
-                  ? "border-gray-900 bg-gray-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-pink-500 bg-pink-50"
+                  : "border-zinc-200 hover:border-zinc-300"
               }`}
             >
               <input
@@ -87,13 +87,13 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
                 value={r.value}
                 checked={region === r.value}
                 onChange={() => setRegion(r.value)}
-                className="accent-gray-900"
+                className="accent-pink-500"
               />
               <div>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-zinc-900">
                   {r.label}
                 </span>
-                <span className="ml-2 text-xs text-gray-400">{r.hint}</span>
+                <span className="ml-2 text-xs text-slate-400">{r.hint}</span>
               </div>
             </label>
           ))}
@@ -109,7 +109,7 @@ export default function SettingsForm({ uploadId }: { uploadId: string }) {
       <button
         onClick={handleSubmit}
         disabled={state === "submitting"}
-        className="w-full rounded-lg bg-gray-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-pink-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-pink-600 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {state === "submitting" ? (
           <span className="flex items-center justify-center gap-2">

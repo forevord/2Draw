@@ -7,7 +7,15 @@ const config: Config = {
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        heading: ["Syne", "sans-serif"],
+        body: ["Manrope", "sans-serif"],
+      },
+      colors: {
+        accent: "#EC4899",
+      },
+    },
   },
   plugins: [],
 };

@@ -71,7 +71,7 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
             <div key={step.key} className="flex items-center gap-3">
               {/* Icon */}
               {s === "complete" && (
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-white">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pink-500 text-white">
                   <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                     <path
                       fillRule="evenodd"
@@ -82,9 +82,9 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
                 </div>
               )}
               {s === "active" && (
-                <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-gray-900">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-pink-500">
                   <svg
-                    className="h-3.5 w-3.5 animate-spin text-gray-900"
+                    className="h-3.5 w-3.5 animate-spin text-pink-500"
                     viewBox="0 0 24 24"
                     fill="none"
                   >
@@ -105,17 +105,17 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
                 </div>
               )}
               {s === "pending" && (
-                <div className="h-6 w-6 rounded-full border-2 border-gray-200" />
+                <div className="h-6 w-6 rounded-full border-2 border-zinc-200" />
               )}
 
               {/* Label */}
               <span
                 className={`text-sm ${
                   s === "complete"
-                    ? "font-medium text-gray-900"
+                    ? "font-medium text-zinc-900"
                     : s === "active"
-                      ? "font-medium text-gray-900"
-                      : "text-gray-400"
+                      ? "font-medium text-zinc-900"
+                      : "text-slate-400"
                 }`}
               >
                 {step.label}
@@ -127,13 +127,13 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
 
       {/* Progress bar */}
       <div>
-        <div className="h-2 overflow-hidden rounded-full bg-gray-100">
+        <div className="h-2 overflow-hidden rounded-full bg-zinc-100">
           <div
-            className="h-full rounded-full bg-gray-900 transition-all duration-500 ease-out"
+            className="h-full rounded-full bg-pink-500 transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="mt-2 text-center text-sm text-gray-500">{progress}%</p>
+        <p className="mt-2 text-center text-sm text-slate-500">{progress}%</p>
       </div>
 
       {/* Error */}
@@ -142,7 +142,7 @@ export default function PipelineProgress({ jobId }: { jobId: string }) {
           <p className="text-sm text-red-600">{error}</p>
           <Link
             href="/"
-            className="mt-3 inline-block rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="mt-3 inline-block rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
           >
             Back to Upload
           </Link>

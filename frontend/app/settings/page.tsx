@@ -11,15 +11,15 @@ export default function SettingsPage({
   if (!uploadId) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center p-8">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-zinc-900">
           No image uploaded
         </h1>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-slate-500">
           Please upload an image first.
         </p>
         <Link
           href="/"
-          className="mt-4 rounded-lg bg-gray-900 px-6 py-2 text-sm font-medium text-white hover:bg-gray-800"
+          className="mt-4 rounded-lg bg-pink-500 px-6 py-2 text-sm font-medium text-white hover:bg-pink-600"
         >
           Go to Upload
         </Link>
@@ -30,10 +30,10 @@ export default function SettingsPage({
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-16">
       <div className="mb-10 text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-zinc-900">
           Configure Your Guide
         </h1>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-slate-500">
           Choose how many color zones and your paint region.
         </p>
       </div>

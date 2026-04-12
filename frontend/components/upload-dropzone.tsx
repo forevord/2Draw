@@ -81,8 +81,8 @@ export default function UploadDropzone() {
         onClick={() => state === "idle" && inputRef.current?.click()}
         className={`relative flex min-h-[240px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-colors ${
           dragOver
-            ? "border-gray-900 bg-gray-50"
-            : "border-gray-300 hover:border-gray-400"
+            ? "border-pink-500 bg-pink-50"
+            : "border-zinc-300 hover:border-zinc-400"
         } ${state !== "idle" ? "cursor-default" : ""}`}
       >
         <input
@@ -98,11 +98,23 @@ export default function UploadDropzone() {
 
         {state === "idle" && (
           <div className="text-center">
-            <div className="mb-3 text-4xl text-gray-400">+</div>
-            <p className="text-sm font-medium text-gray-600">
+            <svg
+              className="mx-auto mb-3 h-10 w-10 text-zinc-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <p className="text-sm font-medium text-zinc-600">
               Drop an image here or click to browse
             </p>
-            <p className="mt-1 text-xs text-gray-400">JPEG or PNG, up to 20 MB</p>
+            <p className="mt-1 text-xs text-slate-400">JPEG or PNG, up to 20 MB</p>
           </div>
         )}
 
@@ -114,7 +126,7 @@ export default function UploadDropzone() {
               alt="Preview"
               className="max-h-48 rounded-lg object-contain"
             />
-            <p className="text-sm text-gray-500">{file?.name}</p>
+            <p className="text-sm text-slate-500">{file?.name}</p>
           </div>
         )}
       </div>
@@ -129,13 +141,13 @@ export default function UploadDropzone() {
         <div className="mt-4 flex justify-center gap-3">
           <button
             onClick={reset}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            className="cursor-pointer rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
           >
             Change
           </button>
           <button
             onClick={handleUpload}
-            className="rounded-lg bg-gray-900 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+            className="cursor-pointer rounded-lg bg-pink-500 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-pink-600"
           >
             Upload & Continue
           </button>
@@ -144,7 +156,7 @@ export default function UploadDropzone() {
 
       {state === "uploading" && (
         <div className="mt-4 flex justify-center">
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-slate-500">
             <svg
               className="h-4 w-4 animate-spin"
               viewBox="0 0 24 24"
@@ -173,7 +185,7 @@ export default function UploadDropzone() {
         <div className="mt-4 flex justify-center">
           <button
             onClick={reset}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            className="cursor-pointer rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
           >
             Try again
           </button>
