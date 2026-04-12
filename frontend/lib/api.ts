@@ -37,6 +37,11 @@ export interface ResultsResponse {
   job_id: string;
   status: string;
   pdf_url: string | null;
+  paid: boolean;
+}
+
+export interface CheckoutResponse {
+  session_url: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -94,6 +99,23 @@ export async function getResults(jobId: string): Promise<ResultsResponse> {
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.detail || `Results fetch failed (${res.status})`);
+  }
+
+  return res.json();
+}
+
+export async function createCheckout(
+  jobId: string,
+): Promise<CheckoutResponse> {
+  const res = await fetch(`${API_BASE}/checkout`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ job_id: jobId }),
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.detail || `Checkout failed (${res.status})`);
   }
 
   return res.json();

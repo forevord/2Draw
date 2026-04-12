@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     stripe_secret_key: str = ""
     stripe_webhook_secret: str = ""
 
+    # Frontend
+    frontend_url: str = "http://localhost:3000"
+
     # Cloudflare R2
     cloudflare_api_token: str = ""
     cloudflare_account_id: str = ""
