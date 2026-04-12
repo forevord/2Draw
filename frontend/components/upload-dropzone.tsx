@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { uploadImage } from "@/lib/api";
+import Spinner from "@/components/spinner";
 
 const MAX_SIZE = 20 * 1024 * 1024; // 20 MB
 const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
@@ -79,6 +80,15 @@ export default function UploadDropzone() {
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
         onClick={() => state === "idle" && inputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (state === "idle" && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            inputRef.current?.click();
+          }
+        }}
+        role="button"
+        tabIndex={state === "idle" ? 0 : -1}
+        aria-label="Upload image — drop or click to browse"
         className={`relative flex min-h-[240px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-colors ${
           dragOver
             ? "border-pink-500 bg-pink-50"
@@ -157,25 +167,7 @@ export default function UploadDropzone() {
       {state === "uploading" && (
         <div className="mt-4 flex justify-center">
           <div className="flex items-center gap-2 text-sm text-slate-500">
-            <svg
-              className="h-4 w-4 animate-spin"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
+            <Spinner size="sm" />
             Uploading...
           </div>
         </div>

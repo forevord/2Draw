@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import PreviewCard from "@/components/preview-card";
+
+export const metadata: Metadata = { title: "Your Guide — 2Draw" };
 
 export default function PreviewPage({
   params,
