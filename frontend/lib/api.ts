@@ -33,6 +33,12 @@ export interface StatusResult {
   status: string;
 }
 
+export interface ResultsResponse {
+  job_id: string;
+  status: string;
+  pdf_url: string | null;
+}
+
 // ---------------------------------------------------------------------------
 // API calls
 // ---------------------------------------------------------------------------
@@ -77,6 +83,17 @@ export async function getStatus(jobId: string): Promise<StatusResult> {
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.detail || `Status check failed (${res.status})`);
+  }
+
+  return res.json();
+}
+
+export async function getResults(jobId: string): Promise<ResultsResponse> {
+  const res = await fetch(`${API_BASE}/results/${jobId}`);
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.detail || `Results fetch failed (${res.status})`);
   }
 
   return res.json();
